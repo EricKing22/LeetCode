@@ -1,14 +1,18 @@
-def maxArea(self, height) -> int:
-    left = 0
-    right = len(height) - 1
-    max_area = 0
-    while (left < right):
-        current_are = (right - left) * min(height[left], height[right])
-        max_area = max(max_area, current_are)
+from typing import List
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        left = 0
+        right = len(height)
 
-        if height[left] < height[right]:
-            left += 1
-        else:
-            right -= 1
+        area = 0
 
-    return max_area
+        while left < right:
+            if height[left] < height[right]:
+                area = max(area, (right - left) * min(height[left], height[right]))
+                left += 1
+            else:
+                area = max(area, (right - left) * min(height[left], height[right]))
+                right -= 1
+
+
+        return area

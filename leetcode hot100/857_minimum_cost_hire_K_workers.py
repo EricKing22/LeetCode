@@ -13,6 +13,10 @@ class Solution:
                 self.pay_min = min(self.pay_min, cur_sum)
                 return
 
+            if len(quality) - len(workers) < k - len(workers):
+                return
+
+
             for i in range(num_workers):
                 if i in workers:
                     pass

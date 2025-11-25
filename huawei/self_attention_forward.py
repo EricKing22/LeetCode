@@ -53,6 +53,6 @@ sa2_result = self_attention(Wq2, Wk2, Wv2, fc1_result, D)
 fc2_result = sa2_result @ Wfc2.T + Bfc2
 
 
-result = fc2_result.reshape(1,-1).ravel().round(2)
-ans = ",".join(list(map(str,result)))
+result = fc2_result.ravel()
+ans = ",".join(f"{r:.2f}" for r in result)
 print(ans)

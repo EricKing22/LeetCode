@@ -1,20 +1,19 @@
+from typing import List
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left = 0
+        right = len(height) - 1
+        left_max = height[0]
+        right_max = height[right]
+        area = 0
+        while left < right:
+            if height[left] < height[right]:
+                left += 1
+                left_max = max(left_max, height[left])
+                area += left_max - height[left]
+            else:
+                right -= 1
+                right_max = max(right_max, height[right])
+                area += right_max - height[right]
 
-def trap(self, height) -> int:
-    left = 0
-    right = len(height)
-    max_left = 0
-    max_right = 0
-    area = 0
-    while (left < right):
-        # update the index which has a higher potential to get the accurate answer
-        if max_left < max_right:
-            # update left
-            left += 1
-            max_left = max(max_left, height[left])
-            area += max_left - height[left]
-        else:
-            right -= 1
-            max_right = max(max_right, height[right])
-            area += max_right - height[right]
-
-    return area
+        return area
