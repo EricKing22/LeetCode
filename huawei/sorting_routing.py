@@ -39,6 +39,10 @@ labels = []
 for group in groups:
     labels += group.label
 
+if len(labels) < k:
+    print("error")
+    exit()
+
 labels.sort(key = lambda x : x[0], reverse = True)
 labels = labels[:k]
 

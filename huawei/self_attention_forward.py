@@ -42,7 +42,7 @@ def self_attention(Wq, Wk, Wv, x, d):
 def softmax(X):
     for i in range(len(X)):
         row = X[i]
-        exp = np.exp2(row)
+        exp = np.exp(row)
         exp_sum = sum(exp)
         X[i] = exp / exp_sum
     return X
