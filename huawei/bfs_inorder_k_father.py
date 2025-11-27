@@ -1,87 +1,89 @@
-# bfs build tree use queue
-# dfs to do inorder traversal
-
-
 values = input().split()
-values = [-1 if x == "#" else int(x) for x in values]
+values = [int(value) if value != "#" else -1 for value in values]
 
-t, k = list(map(int, input().split()))
-class TreeNode():
+u, k = list(map(int, input().split()))
+
+class TreeNode:
     def __init__(self, value, fa = None):
-        self.left = None
-        self.right = None
         self.value = value
         self.fa = fa
+        self.left = None
+        self.right = None
 
+q = []
+i = 1
+rt_value = values[0]
+rt = TreeNode(rt_value)
+q.append(rt)
+# build tree with bfs
 
-def build_tree():
-    i = 1
-    rt = TreeNode(values[0])
-    q = [rt]
+while len(q) > 0:
+    fa = q.pop(0)
+    value = values[i]
+    if value != -1:
+        node = TreeNode(value, fa)
+        fa.left = node
+        q.append(node)
+    i += 1
 
-    while len(q) != 0 and i < len(values):
-        u = q.pop(0)
+    if i == len(values):
+        break
 
-        if i < len(values) and values[i] != -1:
-            left = TreeNode(values[i], u)
-            q.append(left)
-            u.left = left
+    value = values[i]
+    if value != -1:
+        node = TreeNode(value,fa)
+        fa.right = node
+        q.append(node)
+    i += 1
 
-        i += 1
+    if i == len(values):
+        break
 
-        if i < len(values) and values[i] != -1:
-            right = TreeNode(values[i], u)
-            q.append(right)
-            u.right = right
-        i += 1
+# dps for in order traversal
+path = []
+memory = [rt]
 
-    return rt
-
-rt = build_tree()
-
-in_order = []
-def dfs(u):
-    left = u.left
-    right = u.right
-    value = u.value
+def dfs(node):
+    left = node.left
+    right = node.right
+    value = node.value
 
     if left:
         dfs(left)
 
-    in_order.append(u)
-    if value == t:
+    path.append(node)
+    if value == u:
         return
 
     if right:
         dfs(right)
 
 dfs(rt)
-for u in in_order:
-    if u.value == t:
-        target = u
+
+
+target = None
+for node in path:
+    if node.value == u:
+        target = node
 
 fathers = [target]
-
-while target.fa:
+while target is not None and target.fa is not None:
     fathers.append(target.fa)
     target = target.fa
 
-target_index = None
-for i in range(len(in_order)):
-    if in_order[i].value == t:
-        target_index = i
+ans = -1
 
-ans = None
 
-for i in range(len(in_order)):
-    if in_order[i] in fathers:
+for node in path:
+    if node.value == u and k != 0:
+        break
+
+    if node in fathers:
         k -= 1
-        if k == 0:
-            ans = i
-            break
+    if k == 0:
+        ans = node.value
+        break
 
-if ans is not None and ans < target_index:
-    print(in_order[ans].value)
-else:
-    print(-1)
+print(ans)
+
 
