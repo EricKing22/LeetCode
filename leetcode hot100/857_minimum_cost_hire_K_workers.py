@@ -6,33 +6,39 @@ class Solution:
 
     def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
         num_workers = len(quality)
-        def dfs(quality, wage, workers, expect_wages, ratio, cur_sum):
-            if len(workers) == k:
-                if cur_sum > self.pay_min:
-                    return
-                self.pay_min = min(self.pay_min, cur_sum)
-                return
 
-            if len(quality) - len(workers) < k - len(workers):
-                return
 
+        def dfs(current_index, memory):
+            if memory != []:
+                index = memory[0]
+                ratio = wage[index] / quality[index]
+            else:
+                ratio = wage[current_index] / quality[current_index]
+
+            memory.append(current_index)
+
+            if len(memory) == k:
+                pay_sum = 0
+                valid = True
+                for index in memory:
+                    if wage[index] > quality[index] * ratio:
+                        valid = False
+                        break
+                    else:
+                        pay_sum += quality[index] * ratio
+
+                if valid:
+                    self.pay_min = min(self.pay_min, pay_sum)
 
             for i in range(num_workers):
-                if i in workers:
-                    pass
-                else:
-                    pay_wage = quality[i] * ratio
-                    if pay_wage >= wage[i]:
-                        expect_wages.append(pay_wage)
-                        workers.append(i)
-                        dfs(quality, wage, workers, expect_wages, ratio, cur_sum + pay_wage)
-                        workers.pop()
-                        expect_wages.pop()
+                if i not in memory:
+                    dfs(i, memory)
 
-
+            memory.pop()
 
         for i in range(num_workers):
-            ratio = wage[i] / quality[i]
-            dfs(quality, wage, [i], [wage[i]], ratio, wage[i])
+            dfs(i, [])
 
         return self.pay_min
+
+
