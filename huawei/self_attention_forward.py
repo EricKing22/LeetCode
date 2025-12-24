@@ -47,6 +47,20 @@ def softmax(X):
         X[i] = exp / exp_sum
     return X
 
+def online_softmax(X):
+    m = -1e9
+    N = len(X)
+    d = 0
+    a = np.array(N)
+
+    for i in range(N):
+        m_pre = m
+        m = max(X[i], m_pre)
+        d = d + (m_pre - m).exp() + (X[i] - m).exp
+
+    for i in range(N):
+        a[i] = (X[i] - m).exp() / d
+
 sa1_result = self_attention(Wq1, Wk1, Wv1, elements, D)
 fc1_result = sa1_result @ Wfc1.T + Bfc1
 sa2_result = self_attention(Wq2, Wk2, Wv2, fc1_result, D)
