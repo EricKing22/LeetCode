@@ -2,3 +2,4 @@
 java/out/
 python/.venv/
 python/.idea/
+.vscode/
