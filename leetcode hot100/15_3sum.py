@@ -1,27 +1,29 @@
 from typing import List
 
-
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
 
-        ans = set()
+        if len(nums) < 3:
+            return []
 
         nums.sort()
+        ans = set()
 
-        for i in range(len(nums)):
+        for i in range(len(nums)-2):
+            start = nums[i]
+
             left = i + 1
             right = len(nums) - 1
 
             while left < right:
-                sum = nums[i] + nums[left] + nums[right]
-                if sum == 0:
-                    ans.add((nums[i], nums[left], nums[right]))
+                total = start + nums[left] + nums[right]
+
+                if total == 0:
+                    ans.add((start, nums[left], nums[right]))
                     left += 1
-                elif sum < 0:
-                    left += 1
-                else:
+                elif total > 0:
                     right -= 1
+                else:
+                    left += 1
 
-        return list(ans)
-
-
+        return [list(t) for t in list(ans)]
