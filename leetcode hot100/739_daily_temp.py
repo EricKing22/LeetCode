@@ -5,8 +5,7 @@ class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         dp = [0 for _ in temperatures]
 
-        i = len(temperatures) - 2
-        while i >= 0:
+        for i in range(len(temperatures) - 2, -1, -1):
 
             if temperatures[i] >= temperatures[i + 1]:
                 next_hot_index = i + 1
@@ -25,5 +24,4 @@ class Solution:
             elif temperatures[i] < temperatures[i + 1]:
                 dp[i] = 1
 
-            i -= 1
         return dp
