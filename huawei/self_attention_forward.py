@@ -56,7 +56,7 @@ def online_softmax(X):
     for i in range(N):
         m_pre = m
         m = max(X[i], m_pre)
-        d = d * (m_pre - m).exp() + (X[i] - m).exp
+        d = d * (m_pre - m).exp() + (X[i] - m).exp()
 
     for i in range(N):
         a[i] = (X[i] - m).exp() / d
