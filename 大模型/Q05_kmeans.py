@@ -2,10 +2,9 @@ import numpy as np
 
 
 def kmeans(X, k, max_iter=100, tol=1e-4, seed=0):
-    # 1. 随机选择 k 个样本作为初始中心。
+    # 1. 选择前 k 个样本作为初始中心。
     X = np.asarray(X, dtype=float)
-    rng = np.random.default_rng(seed)
-    centers = X[rng.choice(len(X), size=k, replace=False)].copy()
+    centers = X[:k].copy()
 
     for _ in range(max_iter):
         # 2. 计算每个样本到每个中心的平方距离，并分配到最近簇。

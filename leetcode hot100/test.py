@@ -20,12 +20,27 @@ class Node:
 import heapq
 from typing import List
 from typing import Optional
+from typing import Counter
 
 class Solution:
-    for i in range(len(nums)):
-        dfs(i, [])
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        re = {}
+        for s in ransomNote:
+            if s in re.keys():
+                re[s] += 1
+            else:
+                re[s] = 0
 
-    def dfs(current_index, memory):
+        for s in magazine:
+            if s not in re:
+                continue
+            if re[s] == 0:
+                return False
+            else:
+                re[s] -= 1
+
+        return True
+
 
 
 
